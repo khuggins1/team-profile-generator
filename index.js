@@ -1,6 +1,9 @@
 const inquirer = require('inquirer');
 
-const emailValidator = require('email-validator');
+const { writeFile, copyFile } = require('./utils/generate-site.js');
+
+const generatePage = require('./src/page-template');
+
 
 const Manager = require('./lib/Manager');
 
@@ -8,11 +11,6 @@ const Engineer = require('./lib/Engineer');
 
 const Intern = require('./lib/intern');
 
-const engineerArray = [];
-
-const interArray = [];
-
-const manager = {};
 
 const createEmployee = (role) => {
     return inquirer
@@ -60,15 +58,23 @@ const createEmployee = (role) => {
                 }
             }
         ])
-        };
+        .then(employee => {
+            if (role ==='Manager') {
+            } else if (role ==='Engineer') {
+                return createEngineer(employee)
+            } else if (role === 'Intern') {
+                return createIntern(employee)
+            }
+            })
+            };
 
 const createManager = (employee) => {
     let {name,id,email} = employee
     return inquirer
-    .prompt(
+    .prompt([
         {
-            type:'number'
-            name: 'officeNumber'
+            type:'number',
+            name: 'officeNumber',
             message: 'Please enter office Number',
             validate: input => {
                 if (input) {
@@ -80,11 +86,24 @@ const createManager = (employee) => {
                 }
             }
         }
-    )
+    ])
+    .then(data => menu())
+};
+
+const createIntern = (employee) => {
+    let {name,id,email} = employee
+    return inquirer
+    .prompt ([
+        {
+            type: 'input',
+            name: 'school',
+            message: 'Please enter school',
+            validate: input => {
+                if(input) {
+                    
+                }
+            }
+
+        }
+    ])
 }
-createEmployee('Manager')
-.then(createManager)
-.then(data => {console.log('DATA', data, 'MANAGER', this.manager)})
-.catch(err => {
-    console.log(err);
-});
