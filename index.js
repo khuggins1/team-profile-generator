@@ -10,8 +10,9 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 
 const Intern = require('./lib/intern');
+const Team = require('./lib/Team.js');
 
-
+const team = new Team();
 const createEmployee = (role) => {
     return inquirer
     .prompt([
@@ -78,7 +79,7 @@ const createManager = (employee) => {
             message: 'Please enter office Number',
             validate: input => {
                 if (input) {
-                    this.manager = new Manager(name,id,email,input)
+                    team.addManager = new Manager(name,id,email,input)
                     return true;
                 } else {
                     console.log
@@ -86,6 +87,26 @@ const createManager = (employee) => {
                 }
             }
         }
+    ])
+    .then(data => menu())
+};
+const createEngineer = (employee) => {
+    let { name,id,email} = employee
+    return inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'github',
+            message: 'Please enter github username',
+            validate: input => {
+                if (input) {
+                    team.addEngineer(new Engineer(name,id,email,input))
+                    return true;
+                } else {
+                    return 'Please enter github username';
+                }
+                }
+            },
     ])
     .then(data => menu())
 };
@@ -100,10 +121,50 @@ const createIntern = (employee) => {
             message: 'Please enter school',
             validate: input => {
                 if(input) {
+                    team.addIntern(new Intern(name,id,email,input))
+                    return true;
+                } else {
+                    return 'Please enter school';
+                }
                     
                 }
             }
-
-        }
     ])
-}
+    .then(data => menu())
+};
+const menu = () => {
+    return inquirer
+    .prompt(
+        {
+            type: 'list',
+            message: 'Add a new member',
+            name: 'choice',
+            choices: ['Engineer', 'Intern', 'Finish building my team'],
+            filter: (input) => {return input.toLowerCase();}
+        })
+    };
+
+    const main = () => {
+        console.log(" Team Profile Generator: Build your Manager's team");
+        createEmployee('Manager')
+        .then(data => {
+            return generatePage(team)
+        })
+        .then(pageHTML => {
+            return writeFile(pageHTML)
+        })
+        .then(writeFileResponse => {
+            console.log(writeFileResponse);
+            return copyFile();
+        })
+        .then(copyFileResponse => {
+            console.log(copyFileResponse);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+    }
+
+    main()
+    
