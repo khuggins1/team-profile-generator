@@ -10,7 +10,8 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 
 const Intern = require('./lib/intern');
-const Team = require('./lib/Team.js');
+const Team = require('./lib/Team');
+
 
 const team = new Team();
 const createEmployee = (role) => {
@@ -33,7 +34,7 @@ const createEmployee = (role) => {
         {
             type: 'number',
             name: 'id',
-            message: `Please enter a number as a  ${role}'s id (Required)`,
+            message: `Please enter a ${role}'s id number (Required)`,
             validate: input => {
                 if(!isNaN(input)) {
                     return true;
@@ -48,8 +49,7 @@ const createEmployee = (role) => {
             name: 'email',
             message: `Please enter ${role}'s email adddress (Required)`,
             validate: input => {
-               const val = emailValidator.validate(input);
-               if(val) {
+               if(input) {
                    return true;
                } else {
                    console.log
@@ -61,6 +61,7 @@ const createEmployee = (role) => {
         ])
         .then(employee => {
             if (role ==='Manager') {
+                return createManager(employee)
             } else if (role ==='Engineer') {
                 return createEngineer(employee)
             } else if (role === 'Intern') {
@@ -128,8 +129,7 @@ const createIntern = (employee) => {
                 }
                     
                 }
-            }
-    ])
+            }])
     .then(data => menu())
 };
 const menu = () => {
@@ -141,6 +141,15 @@ const menu = () => {
             name: 'choice',
             choices: ['Engineer', 'Intern', 'Finish building my team'],
             filter: (input) => {return input.toLowerCase();}
+        })
+        .then(({choice}) => {
+            if(choice === 'engineer') {
+                return createEmployee('Engineer')
+            } else if (choice === 'intern') {
+                return createEmployee('Intern')
+            } else if (choice === 'finish building my team') {
+                return('Your team is ready. Go to dist/ folder to see the file created')
+            }
         })
     };
 
