@@ -59,24 +59,24 @@ const generateIntern = intern => {
 };
 // create manager section
 const generateManager = manager => {
-    let { name, id, email, officeNumber } = manager.manager;
-    return `
-      <section class="my-3" id="manager">
-        <div class="flex-row justify-space-around">
-            <div class="card col-4 mb-2 bg-light text-light p-3">
-                <div class="card-header">
-                    <h3 class="text-light">${name}</h3>
-                    <h4 class="text-light"><i class="fas fa-user-tie"></i>  Manager</h4>
-                </div>
-                <div class="card-body"> 
-                    <h5 class="btn text-dark"> ID: ${id}</h5>
-                    <address class="btn text-dark"> Email: <a href=mailto:${email}>${email}</a></address>
-                    <h5 class="btn text-dark"> Office number: ${officeNumber}</h5>
-                </div>
-            </div>
-        </div>
-      </section>
-    `;
+  let { name, id, email, officeNumber } = manager.manager;
+  return `
+    <section class="my-3" id="manager">
+      <div class="flex-row justify-space-around">
+          <div class="card col-4 mb-2 bg-light text-light p-3">
+              <div class="card-header">
+                  <h3 class="text-light">${name}</h3>
+                  <h4 class="text-light"><i class="fas fa-user-tie"></i>  Manager</h4>
+              </div>
+              <div class="card-body"> 
+                  <h5 class="btn text-dark"> ID: ${id}</h5>
+                  <address class="btn text-dark"> Email: <a href=mailto:${email}>${email}</a></address>
+                  <h5 class="btn text-dark"> Office number: ${officeNumber}</h5>
+              </div>
+          </div>
+      </div>
+    </section>
+  `;
 };
 module.exports = teamData => {
     console.log(teamData);

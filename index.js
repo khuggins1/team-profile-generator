@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 
 const { writeFile, copyFile } = require('./utils/generate-site.js');
 
-const generatePage = require('./src/page-template');
+const generatePage = require('./src/page-template.js');
 
 
 const Manager = require('./lib/Manager');
@@ -80,7 +80,7 @@ const createManager = (employee) => {
             message: 'Please enter office Number',
             validate: input => {
                 if (input) {
-                    team.addManager = new Manager(name,id,email,input)
+                    team.addManager(name,id,email,input)
                     return true;
                 } else {
                     console.log
